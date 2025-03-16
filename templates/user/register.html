@@ -1,0 +1,19 @@
+{% extends 'nav_base/home.html' %} {% block content %}
+<div class="container bg-light shadow-md p-5">
+  <h3>Create your account</h3>
+  <br />
+
+  <form method="POST" autocomplete="off">
+    {% csrf_token %} {{ form.as_p }}
+    <br />
+    <button type="submit" class="btn btn-primary w-100 btn-block p-2">
+      Register
+    </button>
+  </form>
+  <br />
+  <p>Already have an account?
+  <a href="{% url 'login' %}">Login</a></p>
+</div>
+<br />
+
+{% endblock %}

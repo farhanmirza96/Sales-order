@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Purchase Order Detail</title>
+</head>
+<body>
+    <h1>Purchase Order Detail</h1>
+    <p>Supplier: {{ purchase_order.supplier }}</p>
+    <p>Order Date: {{ purchase_order.order_date }}</p>
+    <p>Total Amount: {{ purchase_order.total_amount }}</p>
+    <p>Status: {{ purchase_order.status }}</p>
+    <a href="{% url 'purchase_order_list' %}">Back to Purchase Orders</a>
+</body>
+</html>

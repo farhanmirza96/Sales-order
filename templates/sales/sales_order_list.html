@@ -1,0 +1,46 @@
+{% include 'nav_base/nav.html' %} {% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
+    <meta name="description" content="" />
+    <meta name="author" content="" />
+    <title>Business Frontpage - Start Bootstrap Template</title>
+    <!-- Favicon-->
+    <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
+    <!-- Bootstrap icons-->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css"
+      rel="stylesheet"
+    />
+    <!-- Core theme CSS (includes Bootstrap)-->
+    <link href="{% static 'css/styles.css' %}" rel="stylesheet" />
+    <title>Sales Orders</title>
+  </head>
+
+  <body>
+    {% block content %} {% endblock %}
+    <h1>Sales Orders</h1>
+    <a href="{% url 'sales_order_create' %}">Create New Sales Order</a>
+    <ul>
+      {% for order in sales_orders %} 
+        
+            <li>
+                <a href="{% url 'sales_order_detail' order.pk %}">
+                  <p>Cutomer Name :   {{ order.customer }}</p>
+                  <p>Booking date :   {{ order.order_date }}</p>
+                  <p>Produt Name  :   {{ order.product.name }}</p>
+                  <p>Quantity     :   {{ order.qty}}  {{ order.unit }}</p>
+                  <p>Rate         :   {{ order.rate }} {{ order.delivery }}</p>
+                  <p>Total amount :   {{ order.total_amount }}</p>
+                </a>
+            </li>
+        
+       {% endfor %}
+    </ul>
+  </body>
+</html>
