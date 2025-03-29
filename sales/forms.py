@@ -1,9 +1,10 @@
+from dataclasses import fields
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth.models import User
 from django import forms
 from django.forms import widgets
 from django.forms.widgets import PasswordInput, TextInput
-from .models import SalesOrder
+from .models import *
 
 # Register/create user
 class CreateUserForm(UserCreationForm):
@@ -18,7 +19,7 @@ class LoginForms(AuthenticationForm):
 class SalesOrderForm(forms.ModelForm):
     class Meta:
         model = SalesOrder
-        fields = ['customer', 'rate', 'qty', 'unit', 'delivery', 'product']
+        fields = ['customer', 'rate', 'qty', 'unit', 'delivery', 'product', 'status']
 
     def save(self, commit=True):
         instance = super().save(commit=False)
@@ -27,3 +28,18 @@ class SalesOrderForm(forms.ModelForm):
             instance.save()
         return instance
         # or fields = ['customer', 'total_amount', 'status']
+
+class AddRecordForm(forms.ModelForm):
+    class Meta:
+        model = Record
+        fields = ['first_name', 'last_name', 'email', 'phone', 'address', 'city', 'province', 'country']
+
+class UpdateRecordForm(forms.ModelForm):
+    class Meta:
+        model = Record
+        fields = ['first_name', 'last_name', 'email', 'phone', 'address', 'city', 'province', 'country']
+
+class UpdateSalesOrder(forms.ModelForm):
+    class Meta:
+        model = SalesOrder
+        fields = ['customer', 'rate', 'qty', 'unit', 'delivery', 'product', 'status']

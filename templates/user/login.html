@@ -1,0 +1,26 @@
+{% extends 'nav_base/base.html' %}
+{% load crispy_forms_tags %}
+{% block content %}
+<div class="container bg-light shadow-md p-5">
+  <br /><br />
+  <h3>Login</h3>
+  <br />
+
+  <form method="POST" autocomplete="off" class="form-layout">
+    {% csrf_token %}
+    <!-- {{ form|crispy }} -->
+    {{ form.username|as_crispy_field }}
+    <br />
+    {{ form.password|as_crispy_field }} 
+    <br />
+    <button type="submit" class="btn btn-primary w-100 btn-block p-2">
+      Login &nbsp; <i class="bi bi-key"></i>
+    </button>
+  </form>
+  <br />
+  <p>Don't have an account?
+    <a href="{% url 'register' %}">Register</a>
+  </p>
+</div>
+<br />
+{% endblock %}

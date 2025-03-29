@@ -21,15 +21,21 @@ from sales.views import *
 from purchases.views import purchase_order_list, purchase_order_create, purchase_order_detail  # Import directly from purchases
 from inventory.views import product_list, product_create, product_detail  # Import directly from inventory
 
+
 urlpatterns = [
     path('', home, name='home'),
-    path('sales/', sales_order_list, name='sales_order_list'),
-    path('create/', sales_order_create, name='sales_order_create'),
-    path('<int:pk>/', sales_order_detail, name='sales_order_detail'),
+    path('sales/', include('sales.urls')),
+    
+    
     path('admin/', admin.site.urls),
     path('purchases/', include('purchases.urls')),
     path('accounts/', include('accounts.urls')),
     path('inventory/', include('inventory.urls')),
-    path('register/', register, name='register'),
-    path('login/', login, name='login'),
+    path('user/', include('sales.urls')),
+    path('dashboard/', include('sales.urls')),
+    path('create_record/', include('sales.urls')),
+    path('update_record/<int:pk>/', include('sales.urls')),
+    path('view_record/<int:pk>/', include('sales.urls')),
+    path('delete_record/<int:pk>/', include('sales.urls')),
+    path('create_record/sales_order/<int:sales_order_id>/create_invoice/', include('sales.urls')),
 ]

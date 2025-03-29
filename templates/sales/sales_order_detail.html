@@ -2,26 +2,67 @@
 {% load static %}
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="utf-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-        <meta name="description" content="" />
-        <meta name="author" content="" />
-        <title>Business Frontpage - Start Bootstrap Template</title>
-        <!-- Favicon-->
-        <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
-        <!-- Bootstrap icons-->
-        <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet" />
-        <!-- Core theme CSS (includes Bootstrap)-->
-        <link href="{% static 'css/styles.css' %}" rel="stylesheet" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="" />
+    <meta name="author" content="" />
+    <title>Business Frontpage - Start Bootstrap Template</title>
+    <!-- Favicon-->
+    <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
+    <!-- Bootstrap icons-->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet" />
+    <!-- Core theme CSS (includes Bootstrap)-->
+    <link href="{% static 'css/styles.css' %}" rel="stylesheet" />
     <title>Sales Order Detail</title>
 </head>
+
 <body>
-    <h1>Sales Order Detail</h1>
-    <p>Customer: {{ sales_order.customer }}</p>
-    <p>Order Date: {{ sales_order.order_date }}</p>
-    <p>Total Amount: {{ sales_order.total_amount }}</p>
-    <p>Status: {{ sales_order.status }}</p>
-    <a href="{% url 'sales_order_list' %}">Back to Sales Orders</a>
+    <div class="container p-5 mt-5">
+
+        <h1><strong>Sales Order Detail</strong></h1>
+        <br />
+        <hr />
+        <h2><strong>{{sales_order.customer}}</strong></h2>
+        <hr />
+        <p>Order Date: &nbsp;{{sales_order.order_date}}</p>
+        <table class="table table-light table-hover">
+            <thead class="table-light">
+                <tr>
+                    <th scope="col">ID</th>
+                    <th scope="col">Product</th>
+                    <th scope="col">Qty</th>
+                    <th scope="col">Unit</th>
+                    <th scope="col">Rate</th>
+                    <th scope="col">Delivery Type</th>
+                    <th scope="col">Total Amount</th>
+                    <th scope="col">Status</th>
+                </tr>
+            </thead>
+            <tbody>
+
+                <tr>
+                    <td>{{sales_order.id}}</td>
+                    <td>{{sales_order.product}}</td>
+                    <td>{{sales_order.qty}}</td>
+                    <td>{{sales_order.unit}}</td>
+                    <td>{{sales_order.rate}}</td>   
+                    <td>{{sales_order.delivery}}</td>
+                    <td>{{sales_order.total_amount}}</td>
+                    <td>{{sales_order.status}}</td>
+                </tr>
+
+            </tbody>
+        </table>
+        <a class="btn btn-primary btn-sm mt-5" href="{% url 'sales_order_list' %}">Back to Sales Orders</a> &nbsp;
+        <a class="btn btn-primary btn-sm mt-5" href="{% url 'update_sales_order' sales_order.id %}">Update record</a> 
+        <a class="btn btn-primary btn-sm mt-5" href="{% url 'create_invoice' sales_order_id=sales_order.id %}">Create Invoice</a>
+        <a class="btn btn-danger btn-sm mt-5" href="{% url 'delete_sales_order' sales_order.id %}">Delete record</a>
+        <!-- sales_order_update sales_order.id -->
+    </div>
+    
+
 </body>
+
 </html>

@@ -1,17 +1,17 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Create Sales Order</title>
-</head>
+{% extends 'nav_base/base.html' %}
+{% load crispy_forms_tags %}
+{% block content %}
 <body>
+    <div class="container bg-light shadow-md p-5 form-layout mt-5">
     <h1>Create Sales Order</h1>
-    <form method="POST">
+    <form method="POST" autocomplete="off" class="form-layout">
         {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit">Save</button>
-    </form>
-    <a href="{% url 'sales_order_list' %}">Back to Sales Orders</a>
+        {{ form|crispy}}
+        <br/>
+        <button type="submit">Create Order</button>
+        <button type="button" class="btn btn-primary w-10" onclick="window.location.href='{% url 'sales_order_list' %}'">Back to Sales Orders</button>
+    </form><br/>
+    
+</div>
 </body>
-</html>
+{% endblock %}
