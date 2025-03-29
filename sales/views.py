@@ -143,15 +143,15 @@ def delete_sales_order(request, pk):
 
 @login_required(login_url='login')
 def create_invoice(request, sales_order_id):
-    sales_order = get_object_or_404(SalesOrder, pk=sales_order_id)
+    sales_order = get_object_or_404(SalesOrder, pk=so_id)
     if request.method == 'POST':
-        sales_order_id = int(request.POST.get('sales_order_id'))
+        sales_order_id = int(request.POST.get('so_id'))
         
         invoice_qty = int(request.POST.get('invoice_qty', 0))
         
         if invoice_qty > sales_order.qty:
             messages.error(request, 'Invoice quantity cannot exceed remaining quantity')
-            return redirect('sales_order_detail', sales_order_id=sales_order_id)
+            return redirect('sales_order_detail', sales_order_id=so_id)
         
         # Create new invoice
         invoice = Invoice.objects.create(
@@ -167,7 +167,7 @@ def create_invoice(request, sales_order_id):
         sales_order.save()
         
         messages.success(request, f'Invoice created successfully. Remaining quantity: {sales_order.qty}')
-        return redirect('sales_order_detail', sales_order_id=sales_order_id)
+        return redirect('sales_order_detail', sales_order_id=so_id)
     
     context = {
         'sales_order': sales_order,

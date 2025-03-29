@@ -57,7 +57,7 @@
         </table>
         <a class="btn btn-primary btn-sm mt-5" href="{% url 'sales_order_list' %}">Back to Sales Orders</a> &nbsp;
         <a class="btn btn-primary btn-sm mt-5" href="{% url 'update_sales_order' sales_order.id %}">Update record</a> 
-        <a class="btn btn-primary btn-sm mt-5" href="{% url 'create_invoice' sales_order_id=sales_order.id %}">Create Invoice</a>
+        <a class="btn btn-primary btn-sm mt-5" href="{% url 'create_invoice' sales_order.id %}">Create Invoice</a>
         <a class="btn btn-danger btn-sm mt-5" href="{% url 'delete_sales_order' sales_order.id %}">Delete record</a>
         <!-- sales_order_update sales_order.id -->
     </div>

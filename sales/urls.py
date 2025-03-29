@@ -20,5 +20,5 @@ urlpatterns = [
     path('delete_sales_order/<int:pk>/', delete_sales_order, name='delete_sales_order'),
     # path('create_invoice/', create_invoice, name='create_invoice'),
     # urls.py
-    path('create_record/create_invoice/<int:sales_order_id>/', create_invoice, name='create_invoice'),
+    path('create_record/create_invoice/<int:so_id>/', create_invoice, name='create_invoice'),
 ]
