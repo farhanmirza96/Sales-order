@@ -99,9 +99,14 @@ def logout(request):
 
 def sales_order_list(request):
     sales_orders = SalesOrder.objects.all()
+    invoices = Invoice.objects.all()
     for order in sales_orders:
+        
         order.total_amount = order.qty * order.rate  # Calculate total amount
-    return render(request, 'sales/sales_order_list.html', {'sales_orders' : sales_orders})
+    
+    for invoice in invoices:
+        invoice.invoice_total_amount = invoice.invoice_qty * invoice.invoice_rate
+    return render(request, 'sales/sales_order_list.html', {'sales_orders' : sales_orders, 'invoices': invoices})
 
 # View to create a new sales order
 def sales_order_create(request):
@@ -142,11 +147,9 @@ def delete_sales_order(request, pk):
     return redirect('sales_order_list')
 
 @login_required(login_url='login')
-def create_invoice(request, sales_order_id):
+def create_invoice(request, so_id):
     sales_order = get_object_or_404(SalesOrder, pk=so_id)
     if request.method == 'POST':
-        sales_order_id = int(request.POST.get('so_id'))
-        
         invoice_qty = int(request.POST.get('invoice_qty', 0))
         
         if invoice_qty > sales_order.qty:
@@ -157,17 +160,19 @@ def create_invoice(request, sales_order_id):
         invoice = Invoice.objects.create(
             sales_order=sales_order,
             invoice_number=f'INV-{sales_order.id}-{datetime.now().strftime("%Y%m%d-%H%M%S")}',
+            invoice_date=datetime.now(),
             invoice_qty=invoice_qty,
             invoice_rate=sales_order.rate,
             invoice_total_amount=invoice_qty * sales_order.rate
         )
         
         # Update remaining quantity
-        sales_order.qty -= invoice_qty
+        sales_order.invoiced_qty += invoice_qty
+        sales_order.remaining_qty = sales_order.qty - sales_order.invoiced_qty
         sales_order.save()
         
         messages.success(request, f'Invoice created successfully. Remaining quantity: {sales_order.qty}')
-        return redirect('sales_order_detail', sales_order_id=so_id)
+        return redirect('sales_order_list')
     
     context = {
         'sales_order': sales_order,

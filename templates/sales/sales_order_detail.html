@@ -55,6 +55,41 @@
 
             </tbody>
         </table>
+        <br/>
+        <div class="container p-5 mt-5">
+            <h2><strong>Invoice Details</strong></h2>
+            <br/>
+            <table class="table table-light table-hover">
+                <thead class="table-light">
+                    <tr>
+                        <th scope="col">ID</th>
+                        <th scope="col">Invoice Number</th>
+                        <th scope="col">Invoice Date</th>
+                        <th scope="col">Product</th>
+                        <th scope="col">Qty</th>
+                        <th scope="col">Unit</th>
+                        <th scope="col">Rate</th>
+                        <th scope="col">Delivery Type</th>
+                        <th scope="col">Total Amount</th>
+                        <th scope="col">Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>{{sales_order.id}}</td>
+                        <td>{{sales_order.invoice_number}}</td>
+                        <td>{{sales_order.invoice_date}}</td>
+                        <td>{{sales_order.product}}</td>
+                        <td>{{sales_order.invoiced_qty}}</td>
+                        <td>{{sales_order.unit}}</td>
+                        <td>{{sales_order.rate}}</td>   
+                        <td>{{sales_order.delivery}}</td>
+                        <td>{{invoice.invoice_total_amount}}</td>
+                        <td>{{sales_order.status}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
         <a class="btn btn-primary btn-sm mt-5" href="{% url 'sales_order_list' %}">Back to Sales Orders</a> &nbsp;
         <a class="btn btn-primary btn-sm mt-5" href="{% url 'update_sales_order' sales_order.id %}">Update record</a> 
         <a class="btn btn-primary btn-sm mt-5" href="{% url 'create_invoice' sales_order.id %}">Create Invoice</a>

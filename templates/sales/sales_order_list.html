@@ -27,9 +27,11 @@
       <tr>
         <th scope="col">Order #</th>
         <th scope="col">Customer</th>
-        <th scope="col">Order Date</th>
+        <!-- <th scope="col">Order Date</th> -->
         <th scope="col">Items</th>
-        <th scope="col">Quantity</th>
+        <th scope="col">Quantity Ordered</th>
+        <th scope="col">Invoiced</th>
+        <th scope="col">Remaining Quantity</th>
         <th scope="col">Unit</th>
         <th scope="col">Delivery Terms</th>
         <th scope="col">Rate</th>
@@ -45,9 +47,11 @@
         
         <td>{{order.id}}</td>
         <td>{{ order.customer }}</td>
-        <td>{{ order.order_date }}</td>
+        <!-- <td>{{ order.order_date }}</td> -->
         <td>{{ order.product.name }}</td>
         <td>{{ order.qty}}</td>
+        <td>{{ order.invoiced_qty}}</td>
+        <td>{{ order.remaining_qty}}</td>
         <td>{{ order.unit }}</td>
         <td>{{ order.delivery }}</td>
         <td>{{ order.rate }}</td>

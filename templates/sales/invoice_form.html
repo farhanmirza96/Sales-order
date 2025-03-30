@@ -14,7 +14,8 @@
             <input type="number" class="form-control" id="invoice_qty" name="invoice_qty" 
                    min="1" max="{{ max_qty }}" required>
         </div>
-        <a class="btn btn-primary btn-sm mt-5" href="{% url 'create_invoice' sales_order.id %}">Create Invoice</a>
+        <button type="submit" class="btn btn-primary btn-sm mt-5">Create Invoice</button>
+        <!-- <a class="btn btn-primary btn-sm mt-5" href="{% url 'create_invoice' sales_order.id %}">Create Invoice</a> -->
         
     </form>
 </div>
