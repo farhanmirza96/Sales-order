@@ -192,6 +192,7 @@ def create_invoice(request, so_id):
     }
     return render(request, 'sales/invoice_form.html', context)
 
-    @login_required(login_url='login')
-    def completed_so(request):
-        return render(request, 'sales/completed_so.html' )
+@login_required(login_url='login')
+def completed_so(request):
+    completed_orders = SalesOrder.objects.filter(status='Completed').order_by('-id')
+    return render(request, 'sales/completed_so.html', {'completed_orders': completed_orders})

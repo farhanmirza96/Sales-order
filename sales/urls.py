@@ -1,6 +1,6 @@
 from django.contrib.auth import login
 from django.urls import path
-from .views import * 
+from .views import *
 # sales_order_list, sales_order_create, sales_order_detail  # Import the correct views
 
 urlpatterns = [
@@ -21,5 +21,5 @@ urlpatterns = [
     
     # urls.py
     path('create_record/create_invoice/<int:so_id>/', create_invoice, name='create_invoice'),
-    path('completed_so/', completed_so, name='completed_so'),
+    path('completed_so/', completed_so, name='completed_so'),  
 ]
