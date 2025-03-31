@@ -1,0 +1,54 @@
+{% include 'nav_base/nav.html' %}
+{% block content %}
+
+<br/>
+        <div class="container p-5 mt-5">
+            <h2><strong>Invoice Details</strong></h2>
+            <br/>
+            <table class="table table-light table-hover">
+                <thead class="table-light">
+                    <tr>
+                        <th scope="col">ID</th>
+                        <th scope="col">Invoice Number</th>
+                        <th scope="col">Invoice Date</th>
+                        <th scope="col">Product</th>
+                        <th scope="col">Qty</th>
+                        <th scope="col">Unit</th>
+                        <th scope="col">Rate</th>
+                        <th scope="col">Delivery Type</th>
+                        <th scope="col">Total Amount</th>
+                        <th scope="col">Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for invoice in invoices %}
+                    <tr>
+                        <td>{{sales_order.id}}</td>
+                        <td>{{invoice.invoice_number}}</td>
+                        <td>{{invoice.invoice_date}}</td>
+                        <td>{{invoice.product}}</td>
+                        <td>{{invoice.invoice_qty}}</td>
+                        <td>{{invoice.invoice_unit}}</td>
+                        <td>{{invoice.invoice_rate}}</td>   
+                        <td>{{sales_order.delivery}}</td>
+                        <td>{{invoice.invoice_total_amount}}</td>
+                        <!-- <td>{{sales_order.status}}</td> -->
+                        {% if sales_order.status == 'Pending' %}
+                        <td><span class="badge bg-danger">{{ sales_order.status }}</span></td>
+                        {% elif sales_order.status == 'In process' %}
+                        <td><span class="badge bg-warning">{{ sales_order.status }}</span></td>
+                        {% else %}
+                        <td><span class="badge bg-success">{{ sales_order.status }}</span></td>
+                        {% endif %}
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        
+
+
+
+
+
+{% endblock %}

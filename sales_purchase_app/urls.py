@@ -38,4 +38,6 @@ urlpatterns = [
     path('view_record/<int:pk>/', include('sales.urls')),
     path('delete_record/<int:pk>/', include('sales.urls')),
     path('create_record/sales_order/<int:sales_order_id>/create_invoice/', include('sales.urls')),
+    path('create_invoice/', include('sales.urls')),
+    path('completed_so', include('sales.urls')),
 ]

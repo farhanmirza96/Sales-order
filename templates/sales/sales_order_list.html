@@ -57,7 +57,13 @@
         <td>{{ order.rate }}</td>
         <td>{{ order.total_amount }}</td>
         <td><a href="{% url 'sales_order_detail' order.pk %}">View detail</a></td>
-        <td>{{ order.status }}</td>
+        {% if order.status == 'Pending' %}
+        <td><span class="badge bg-danger">{{ order.status }}</span></td>
+        {% elif order.status == 'In process' %}
+        <td><span class="badge bg-warning">{{ order.status }}</span></td>
+        {% else %}
+        <td><span class="badge bg-success">{{ order.status }}</span></td>
+        {% endif %}
       </tr>
     </tbody>
     {% endfor %}

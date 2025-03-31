@@ -25,9 +25,21 @@ class SalesOrder(models.Model):
     status = models.CharField(max_length=20, default='Pending', choices=[
         ('In process', 'In process'),
         ('Pending', 'Pending'),
+        ('Hold', 'Hold'),
         ('Completed', 'Completed'),
     ])
     product = models.ForeignKey(Product, on_delete=models.CASCADE, default=1)  # Add ForeignKey to Inventory
+
+    @property
+    def invoices_qty(self):
+        return self.invoice_set.count()
+    
+    def save(self, *args, **kwargs):
+        if self.status == 'Pending' and self.invoices_qty > 0 and self.invoices_qty < self.qty:
+            self.status = 'In process'
+        elif self.invoices_qty >= self.qty:
+            self.status = 'Completed'
+        super().save(*args, **kwargs)
 
 class Record(models.Model):
     creation_date = models.DateTimeField(auto_now_add=True)
@@ -48,7 +60,12 @@ class Invoice(models.Model):
     sales_order = models.ForeignKey(SalesOrder, on_delete=models.CASCADE)
     invoice_date = models.DateTimeField(auto_now_add=True)
     invoice_number = models.CharField(max_length=20)
+    product = models.ForeignKey(Product, on_delete=models.CASCADE, default=1)
     invoice_qty = models.IntegerField(default=1)
+    invoice_unit = models.CharField(max_length=20, default='Ctn', choices=[
+        ('CTN', 'Ctn'),
+        ('Pouch', 'Pouch')
+    ])
     invoice_rate = models.IntegerField(validators=[MaxValueValidator(99999)], default=0)
     invoice_total_amount = models.DecimalField(max_digits=10, decimal_places=2)
     created_at = models.DateTimeField(auto_now_add=True)

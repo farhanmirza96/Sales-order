@@ -21,4 +21,5 @@ urlpatterns = [
     
     # urls.py
     path('create_record/create_invoice/<int:so_id>/', create_invoice, name='create_invoice'),
+    path('completed_so/', completed_so, name='completed_so'),
 ]

@@ -99,14 +99,13 @@ def logout(request):
 
 def sales_order_list(request):
     sales_orders = SalesOrder.objects.all()
-    invoices = Invoice.objects.all()
+    
     for order in sales_orders:
         
         order.total_amount = order.qty * order.rate  # Calculate total amount
     
-    for invoice in invoices:
-        invoice.invoice_total_amount = invoice.invoice_qty * invoice.invoice_rate
-    return render(request, 'sales/sales_order_list.html', {'sales_orders' : sales_orders, 'invoices': invoices})
+    
+    return render(request, 'sales/sales_order_list.html', {'sales_orders' : sales_orders})
 
 # View to create a new sales order
 def sales_order_create(request):
@@ -123,7 +122,8 @@ def sales_order_create(request):
 # View to detail a specific sales order
 def sales_order_detail(request, pk):
     sales_order = SalesOrder.objects.get(pk=pk)
-    return render(request, 'sales/sales_order_detail.html', {'sales_order': sales_order})
+    invoices = Invoice.objects.filter(sales_order=sales_order).order_by('-invoice_date')
+    return render(request, 'sales/sales_order_detail.html', {'sales_order': sales_order, 'invoices': invoices})
 
 @login_required(login_url='login')
 def update_sales_order(request, pk):
@@ -148,13 +148,23 @@ def delete_sales_order(request, pk):
 
 @login_required(login_url='login')
 def create_invoice(request, so_id):
-    sales_order = get_object_or_404(SalesOrder, pk=so_id)
+    try:
+        sales_order = SalesOrder.objects.get(pk=so_id)
+    except SalesOrder.DoesNotExist:
+        messages.error(request, 'Sales order not found')
+        return redirect('sales_order_list')
+
+    # Check if sales order is completed
+    if sales_order.status == 'Completed':
+        messages.error(request, 'Cannot create invoice for completed sales order')
+        return redirect('sales_order_detail', sales_order_id=so_id)
+    
     if request.method == 'POST':
         invoice_qty = int(request.POST.get('invoice_qty', 0))
         
         if invoice_qty > sales_order.qty:
             messages.error(request, 'Invoice quantity cannot exceed remaining quantity')
-            return redirect('sales_order_detail', sales_order_id=so_id)
+            return redirect('sales_order_detail', pk=sales_order_id)
         
         # Create new invoice
         invoice = Invoice.objects.create(
@@ -167,6 +177,8 @@ def create_invoice(request, so_id):
         )
         
         # Update remaining quantity
+        if sales_order.invoiced_qty >= sales_order.qty:
+            sales_order.status = 'completed'
         sales_order.invoiced_qty += invoice_qty
         sales_order.remaining_qty = sales_order.qty - sales_order.invoiced_qty
         sales_order.save()
@@ -179,3 +191,7 @@ def create_invoice(request, so_id):
         'max_qty': sales_order.qty
     }
     return render(request, 'sales/invoice_form.html', context)
+
+    @login_required(login_url='login')
+    def completed_so(request):
+        return render(request, 'sales/completed_so.html' )
